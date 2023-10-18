@@ -1,12 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native';
+import params from './src/params'
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        
+      </View>
+
+      <Text>{params.getColumnsAmount()} x {params.getRowsAmount()}</Text>
+      
+      <View>
+        
+      </View>
+
+    </SafeAreaView>
   );
 }
 
@@ -14,7 +22,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    
   },
+  header:{
+    height: Dimensions.get('window').height * params.headerRatio,
+    backgroundColor: '#000'
+
+  }
 });
