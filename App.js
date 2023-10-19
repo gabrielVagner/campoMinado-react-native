@@ -1,27 +1,28 @@
-import { StyleSheet, Text, View, SafeAreaView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, Button } from 'react-native';
 import params from './src/params'
-import Field from './src/components/Field'
+import MineField from './src/components/MineField';
+import {createMinedBoard} from './src/logic';
+
 
 export default function App() {
+  const rows = params.getRowsAmount()
+  const columns = params.getColumnsAmount()
+  const qntMines = Math.ceil((rows*columns)*params.difficultLevel)
+  const board = createMinedBoard(rows, columns , qntMines)
+
+
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        
+        <Text style={{color: 'white'}}>{rows}x{columns}</Text>
+        <Button onPress={()=>console.log(board)} title='logBoard'/>
       </View>
 
-      <Text>{params.getColumnsAmount()} x {params.getRowsAmount()}</Text>
-      
-      <Field/>
-      <Field opened/>
-      <Field opened nearMines={1}/>
-      <Field opened nearMines={2}/>
-      <Field opened nearMines={5}/>
-      <Field opened nearMines={8}/>
-      <Field opened mined/>
-      <Field mined/>
-      <Field opened mined exploded/>
-      <Field flagged/>
-      <Field flagged opened/>
+      <View style={styles.mineField}>
+        <MineField board = {board}/>
+      </View>
     </SafeAreaView>
   );
 }
@@ -35,6 +36,12 @@ const styles = StyleSheet.create({
   header:{
     height: Dimensions.get('window').height * params.headerRatio,
     backgroundColor: '#000'
+  },
+  mineField:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    backgroundColor: 'grey'
 
   }
 });
