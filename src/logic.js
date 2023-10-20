@@ -25,7 +25,6 @@ const putMines = (board, qntMines)=>{
             board[rowP][columP].mined = true
             minesPlanted++
         }
-
     }
 }
 
@@ -53,8 +52,6 @@ const getNeighbors = (board, row, column)=>{
             const validColumn = c < board[0].length && c >= 0 ? true:false
             const validPosition = row !== r || column !== c ? true:false
             validRow && validColumn && validPosition ? neighbors.push(board[r][c]) : false
-                
-            
         });
     });
     return neighbors
@@ -77,10 +74,25 @@ const toOpen = (board, r, c)=>{
             const neighbors = getNeighbors(board, r,c)
             field.nearMines = neighbors.filter(n=>n.mined).length
         }
-        
     }
-    
-}  
+}
+const toFlag = (board, r, c)=>{
+    const field = board[r][c]
+    if(!field.flagged){
+        field.flagged = true
+    }else{
+        field.flagged = false
+    }
+
+}
 
 
-export {createMinedBoard, cloneBoard, toOpen}
+const fields = (board)=> [].concat(...board)
+
+const mineExploded = (board)=> fields(board).filter(i=>i.exploded).length >0 ? true : false
+const showMines = (board)=> fields(board).filter(f=>f.mined).forEach(i=>i.opened = true)
+const penddingFields = (board) => fields(board).filter(f=>( (!f.flagged && f.mined) || (!f.mined && !f.opened) )).length > 0
+
+
+
+export {createMinedBoard, cloneBoard, toOpen, toFlag, mineExploded, showMines, penddingFields}
